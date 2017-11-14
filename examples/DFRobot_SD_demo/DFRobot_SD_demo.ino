@@ -27,6 +27,8 @@ uint8_t       pin_cs = 3;
 uint8_t       pin_cs = D3;
 #endif
 
+File myFile;
+
 void setup() {
   // Open serial communications and wait for port to open:
   Serial.begin(115200);
@@ -36,22 +38,21 @@ void setup() {
 
   Serial.println();
   Serial.println();
-  if (!SD.begin()) {
+  if (!SD.begin(pin_cs)) {
     Serial.println("initialization failed!");
     return;
   }
   Serial.println("initialization done.");
 
   Serial.print("    file name:");
-  Serial.println(myFile.name());
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   myFile = SD.open("test.txt", FILE_WRITE);
 
   // if the file opened okay, write to it:
   if (myFile) {
-    //Serial.print("Writing to test.txt...");
-    //myFile.println("testing 1, 2, 3.");
+    Serial.print("Writing to test.txt...");
+    myFile.println("testing 1, 2, 3.");
     // close the file:
     myFile.close();
     //Serial.println("done.");
