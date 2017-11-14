@@ -44,7 +44,6 @@ void setup() {
   }
   Serial.println("initialization done.");
 
-  Serial.print("    file name:");
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
   myFile = SD.open("test.txt", FILE_WRITE);
@@ -101,17 +100,6 @@ void setup() {
 
   Serial.println("\ncreat direction");
   SD.mkdir("T1");
-
-  setSDFileSystem(&myFile, &card, &volume, &root);
-  Serial.println("read file:");
-  uint8_t       buf[32] = {0};
-  uint8_t       i = 0;
-  readSDFile("test.txt", 32, buf, SD_FIRST | SD_CLOSE);
-  for(i = 0; i < 32; i ++) {
-    Serial.print(" ");
-    Serial.print(buf[i], HEX);
-  }
-  Serial.println();
 }
 
 void loop() {
