@@ -1,18 +1,6 @@
 /*
-  SD card read/write
-
- This example shows how to read and write data to and from an SD card file
- The circuit:
- * SD card attached to SPI bus as follows:
- ** MOSI - pin 11
- ** MISO - pin 12
- ** CLK - pin 13
- ** CS - pin 4 (for MKRZero SD: SDCARD_SS_PIN)
-
- created   Nov 2010
- by David A. Mellis
- modified 9 Apr 2012
- by Tom Igoe
+ SD card read/write
+ created   Nov 2017
 
  This example code is in the public domain.
 
@@ -44,8 +32,10 @@ void setup() {
   }
   Serial.println("initialization done.");
 
+  Serial.print("    file name:");
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
+  SD.remove("test.txt");
   myFile = SD.open("test.txt", FILE_WRITE);
 
   // if the file opened okay, write to it:
@@ -54,17 +44,17 @@ void setup() {
     myFile.println("testing 1, 2, 3.");
     // close the file:
     myFile.close();
-    //Serial.println("done.");
+    Serial.println("done.");
+    if(myFile) {
+      Serial.println("file still have value");
+    } else {
+      Serial.println("file closed");
+    }
   } else {
     // if the file didn't open, print an error:
     Serial.println("error opening test.txt");
   }
-
-  if(myFile) {
-    Serial.println("file still have value");
-  } else {
-    Serial.println("file closed");
-  }
+  
   // re-open the file for reading:
   myFile = SD.open("test.txt");
   if (myFile) {
@@ -81,8 +71,6 @@ void setup() {
     Serial.println("error opening test.txt");
   }
   
-  Serial.print("    file name:");
-  Serial.println(myFile.name());
   myFile = SD.open("Floder/nText.txt");
   if (myFile) {
     Serial.println("Floder/nText.txt:");
@@ -100,9 +88,15 @@ void setup() {
 
   Serial.println("\ncreat direction");
   SD.mkdir("T1");
+  SD.rmdir("T1");
+  myFile = SD.open("T1");
+  if(myFile) {
+    Serial.println("del direction faild");
+  } else {
+    Serial.println("del direction successful");
+  }
 }
 
 void loop() {
   // nothing happens after setup
 }
-
